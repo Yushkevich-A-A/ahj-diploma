@@ -1,0 +1,2 @@
+// js
+import './Widget/Widget';

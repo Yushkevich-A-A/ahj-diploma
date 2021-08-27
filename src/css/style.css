@@ -63,6 +63,7 @@ body {
 
 .block-display-content {
   height: 300px;
+  overflow-y: scroll;
 }
 
 .widget-header {
@@ -101,6 +102,17 @@ body {
   position: relative;
 }
 
+.logo-menu {
+  width: 40px;
+  height: 40px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
 .logo-menu::after,
 .logo-menu::before {
   content: "";
@@ -119,10 +131,6 @@ body {
   border-radius: 50%;
   margin-top: 2px;
   margin-bottom: 2px;
-}
-
-.logo-menu {
-  margin-right: 20px;
 }
 
 .additional-menu {

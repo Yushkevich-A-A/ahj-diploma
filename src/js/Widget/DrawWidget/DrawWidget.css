@@ -1,0 +1,176 @@
+.widget-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .widget {
+    max-width: 700px;
+    width: 100%;
+  }
+  
+  .input {
+    /* background-color: #fff;
+    border: 1px solid gray;
+    border-radius: 15px;
+    padding: 5px 15px; */
+    border: none;
+  }
+  
+  .input:focus-visible {
+    outline: none;
+  }
+  
+  .button {
+    display: inline-block;
+    background-color: #fff;
+    /* border: 1px solid gray; */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+  }
+  
+  .widget-block {
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid gray;
+    border-radius: 15px;
+  }
+  
+  .block-display-content {
+    height: 300px;
+    overflow-y: scroll;
+  }
+  
+  .widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+  }
+  
+  .header-main {
+     display: flex;
+     align-items: center;
+  }
+  
+  .logo {
+    width: 40px;
+    height: 40px;
+    border: 1px solid gray;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+  }
+  
+  .logo__img {
+    width: 100%;
+  }
+  
+  .title-widget__h1 {
+    font-size: 20px;
+  }
+  
+  
+  
+  
+  .header-menu {
+    position: relative;
+  }
+  
+  .logo-menu {
+    width: 40px;
+    height: 40px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  .logo-menu::after,
+  .logo-menu::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    width: 5px;
+    height: 5px;
+    border: 1px solid gray;
+    border-radius: 50%;
+  }
+  
+  .logo-menu__div-point {
+    width: 5px;
+    height: 5px;
+    border: 1px solid gray;
+    border-radius: 50%;
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+  
+  .additional-menu {
+    position: absolute;
+  }
+  
+  
+  /* стилизация списка сообщений */
+  
+  .list-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  /* .content-message {
+  
+  } */
+  
+  .block-display-content {
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+  }
+  
+  .item-content {
+    margin-top: 20px;
+  }
+  
+  .content-message {
+      padding: 10px;
+    background-color: #fff;
+    border: 1px solid gray;
+    border-radius: 15px;
+  }
+  
+  .button-send-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  .button-send-message__img,
+  .button-emoji__img,
+  .button-paperclip__img {
+    width: 100%;
+  }
+  
+  .basil-function {
+    background-color: #fff;
+    border: 1px solid gray;
+    border-radius: 15px;
+    padding: 5px 15px;
+    display:flex;
+    /* align-items: center; */
+  }
+  
+  .form-input-content__input {
+    width: 100%;
+  }

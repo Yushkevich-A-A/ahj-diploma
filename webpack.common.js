@@ -41,7 +41,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[name].[ext]', // чтоб не менялось название файла
+              name: 'image/[name].[ext]' || 'image/[folder]/[name].[ext]', // чтоб не менялось название файла'
             },
           },
         ],
