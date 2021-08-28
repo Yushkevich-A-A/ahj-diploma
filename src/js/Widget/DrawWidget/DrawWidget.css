@@ -167,10 +167,29 @@
     border: 1px solid gray;
     border-radius: 15px;
     padding: 5px 15px;
-    display:flex;
-    /* align-items: center; */
+    display: flex;
+    align-items: center;
+  }
+
+  .add-emoji-files,
+  .send-message {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .add-emoji-files-button {
+    margin-right: 10px;
+  }
+
+  .send-message-input,
+  .send-message {
+    width: 100%;
   }
   
   .form-input-content__input {
     width: 100%;
+    padding: 5px;
+    resize: none;
+    height: 40px;
   }
