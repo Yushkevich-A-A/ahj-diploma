@@ -15,10 +15,6 @@
   }
   
   .input {
-    /* background-color: #fff;
-    border: 1px solid gray;
-    border-radius: 15px;
-    padding: 5px 15px; */
     border: none;
   }
   
@@ -29,7 +25,6 @@
   .button {
     display: inline-block;
     background-color: #fff;
-    /* border: 1px solid gray; */
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -41,11 +36,6 @@
     background-color: #fff;
     border: 1px solid gray;
     border-radius: 15px;
-  }
-  
-  .block-display-content {
-    height: 300px;
-    overflow-y: scroll;
   }
   
   .widget-header {
@@ -128,40 +118,72 @@
     align-items: flex-start;
   }
   
-  /* .content-message {
-  
-  } */
-  
   .block-display-content {
     padding-right: 20px;
     padding-left: 20px;
     padding-bottom: 20px;
+    height: 400px;
+    overflow-y: scroll;
   }
-  
+
   .item-content {
     margin-top: 20px;
   }
   
   .content-message {
-      padding: 10px;
+    padding: 10px;
     background-color: #fff;
     border: 1px solid gray;
     border-radius: 15px;
   }
-  
-  .button-send-message {
+
+  .block-date-download {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
   }
-  
-  
+
+  .download-file {
+    width: 40px;
+    height: 40px;
+  }
+
+  .download-file__img {
+    width: 100%;
+  }
+
+
+
+  .message {
+    margin: 10px;
+    color: #000;
+  }
+
+  .item__audio,
+  .item__video,
+  .item__img {
+    width: 100%;
+  }
+
+  .message__audio,
+  .message__video,
+  .message__img {
+    width: 100%;
+  }
+
+
   .button-send-message__img,
   .button-emoji__img,
   .button-paperclip__img {
     width: 100%;
   }
-  
+
+  .button-send-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }  
+
   .basil-function {
     background-color: #fff;
     border: 1px solid gray;
@@ -192,4 +214,36 @@
     padding: 5px;
     resize: none;
     height: 40px;
+  }
+
+  .send-message-input_files {
+    position: relative;
+    height: 100px;
+  }
+
+
+  .form-input-files_wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .form-input-files_wrapper {
+    background: #ffffff;
+    padding: 5px;
+  }
+
+  .form-input-files-drop-field {
+    border: 2px dashed #818181;
+    border-radius: 10px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form-input-files-drop-field:hover {
+    border-color: orange;
   }

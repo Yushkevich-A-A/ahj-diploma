@@ -68,10 +68,17 @@ export default class DrawWidget {
                         </div>
                         <div class="send-message">
                             <div class="send-message-input">
-                                <textarea class="input form-input-content__input" type="text" placeholder="Type your message here"></textarea>
-                            </div>
-                            <div class="button button-send-message">
-                                <img class="button-send-message__img" src="${send}" alt="">
+                                <div class="send-message-input_text">
+                                    <textarea class="input form-input-content__input" placeholder="Type your message here"></textarea>
+                                </div>
+                                <div class="send-message-input_files disable">
+                                    <input type='file' class="form-input-files">
+                                    <div class="form-input-files_wrapper">
+                                        <div class="form-input-files-drop-field">
+                                            <p>Drop your file here</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -81,50 +88,13 @@ export default class DrawWidget {
         </div>`;
         this.element.appendChild(this.widget);
         this.contentList = this.widget.querySelector('.list-content');
+        this.sendMessageInputText = this.widget.querySelector('.send-message-input_text');
+        this.sendMessageInputFiles = this.widget.querySelector('.send-message-input_files');
         this.blockDisplayContent = this.widget.querySelector('.block-display-content');
         this.additionalMenu = this.widget.querySelector('.additional-menu');
         this.formInput = this.widget.querySelector('.form-input-content');
+        this.formInputFiles = this.widget.querySelector('.form-input-files');
         this.formInputContent = this.widget.querySelector('.form-input-content__input');
-    }
-
-    drawContentWidget(data) {
-        for(let i of data) {
-            this.drawContent(i);
-        }
-    }
-
-    drawContent(item, newMessage = false) {
-        console.log(item)
-        const li = document.createElement('li');
-        li.classList.add('item-content');
-        li.innerHTML = `<div class="content-message">
-                            <div class="message-date"></div>
-                        </div>`;
-        li.dataset.idPost = item.data.id;
-        if (newMessage) {
-            this.contentList.appendChild(li);
-        } else {
-            this.contentList.insertAdjacentElement("beforeend", li); 
-        }
-        const messageDate = li.querySelector('.message-date');
-        messageDate.textContent = moment(item.data.date).format('DD.MM.YYYY HH:mm');
-        const contentMessage = li.querySelector('.content-message');
-
-        let content;
-        switch (item.type) {
-            case 'text':
-                content = this.newText(item.data.content);
-                break;
-        }
-
-        contentMessage.appendChild(content);
-    }
-
-    newText(data) {
-        const textMessage = document.createElement('div');
-        textMessage.classList.add('message');
-        textMessage.textContent = data;
-        return textMessage;
     }
 
     openAddMenu() {
@@ -139,7 +109,7 @@ export default class DrawWidget {
         this.inputData = null;
         if (this.formInputContent.value.trim() === '') {
             this.formInput.reset();
-            return false;
+            return null;
         }
 
         this.inputData = this.formInputContent.value.trim();
@@ -149,5 +119,15 @@ export default class DrawWidget {
 
     scrollToBottom() {
         this.blockDisplayContent.scrollTop = this.blockDisplayContent.scrollHeight
+    }
+
+    visiableBlockFiles() {
+        this.sendMessageInputText.classList.add('disable');
+        this.sendMessageInputFiles.classList.remove('disable');
+    }
+
+    disableBlockFiles() {
+        this.sendMessageInputText.classList.remove('disable');
+        this.sendMessageInputFiles.classList.add('disable');
     }
 }
