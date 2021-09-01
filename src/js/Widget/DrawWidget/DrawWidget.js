@@ -4,11 +4,6 @@ import emoji from './images/buttons/emoji.png';
 import paperclip from './images/buttons/paperclip.png';
 import send from './images/buttons/send.png';
 
-import moment from 'moment';
-import 'moment/locale/ru';
-
-moment().locale('ru');
-
 export default class DrawWidget {
     constructor(element = null) {
         this.element = element;
@@ -79,6 +74,9 @@ export default class DrawWidget {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="button button-send-message">
+                                <img class="button-send-message__img" src="${send}" alt="">
                             </div>
                         </div>
                     </div>

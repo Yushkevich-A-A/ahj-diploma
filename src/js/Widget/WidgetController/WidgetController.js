@@ -1,8 +1,12 @@
 export default class WidgetController {
-    constructor(widget) {
+    constructor(url, widget, contentList) {
+        this.url = url;
         this.widget = widget;
+        this.contentList = contentList;
+        this.alreadyInit = false;
         this.typeInput = null;
-        this.data = null;
+        this.dataText = null;
+        this.dataMedia = null;
         this.init();
     }
 
@@ -13,25 +17,26 @@ export default class WidgetController {
 
     listeners() {
         document.addEventListener('click', event => {
-            if (!event.target.closest('.link')) {
+            if (!event.target.closest('.link') && !event.target.closest('.download-file__link') ) {
                 event.preventDefault();
             }
 
-            if (event.target.closest('.logo-menu')) {
-                this.widget.openAddMenu();
-            }
+            // if (event.target.closest('.logo-menu')) {
+            //     this.widget.openAddMenu();
+            // }
 
             if (event.target.closest('.button-paperclip')) {
                 this.widget.formInputFiles.dispatchEvent(new MouseEvent('click'));
             }
 
             if (event.target.closest('.button-send-message')) {
-                this.data = this.widget.validityInput();
-                console.log(this.data);
-                if (this.data === null) {
-                    return;
-                }
+                this.dataText = this.widget.validityInput();
                 this.checkInputValue();
+                console.log(this.typeInput);
+                console.log(this.dataText);
+
+                console.log('Отправка на сервер');
+
                 this.sentDataToServer();
             }
         })
@@ -51,58 +56,84 @@ export default class WidgetController {
     }
 
     connectionToServer() {
-        this.ws = new WebSocket('ws://localhost:7070/');
-
-        this.ws.addEventListener('open', () => {
-            console.log('соединение открыто');
-        });
-
-        this.ws.addEventListener('message', (event) => {
-            const data = JSON.parse(event.data);
-            if(data.status === 'init') {
-                this.widget.drawContentWidget(data.data);
-                this.widget.scrollToBottom()
+        const eventSourse = new EventSource(`${this.url}/sse`);
+        eventSourse.addEventListener('message', (event) => {
+            const item = JSON.parse(event.data);
+            console.log(item);
+            if (item.status === 'init' && !this.alreadyInit) {
+                this.alreadyInit = true;
+                this.contentList.drawContentWidget(item.data);
+                this.widget.scrollToBottom();
+                return;
+            } if (item.status === 'init') {
+                return;
             }
 
-            if (data.status === 'message') {
-                this.widget.drawContent(data.data, true);
-            }
+            this.contentList.drawContent(item, true);
+
+            eventSourse.addEventListener('open', (event) => {
+            console.log(event);
+            });
+            eventSourse.addEventListener('error', (event) => {
+            console.log(event);
+            });
         });
     }
 
     sentDataToServer() {
-        if (this.typeInput === 'text') {
+        if (this.typeInput === 'text' || this.typeInput === 'link') {
             const obj = {
-                type: 'text',
+                type: this.typeInput,
                 data: {
-                    content: this.data,
+                    content: this.dataText,
                     date: Date.now(),
                 }
             };
-            this.ws.send(JSON.stringify(obj));
+
+            fetch('http://localhost:7070/text', {
+                method: 'POST',
+                body: JSON.stringify(obj)
+            })
+           
         }
 
-         if (this.typeInput === 'link') {
+         if (this.typeInput === 'image' || this.typeInput === 'video' || this.typeInput === 'audio') {  
             const obj = {
-                type: 'link',
+                type: 'image',
                 data: {
-                    content: this.data,
+                    content: {},
                     date: Date.now(),
                 }
             };
-            this.ws.send(JSON.stringify(obj));
+
+            if (this.dataText) {
+                obj.data.content.text = this.dataText;
+            }
+
+            const newForm = new FormData();
+            newForm.append('textData', JSON.stringify(obj));
+            newForm.append('file', this.dataMedia);
+
+            fetch('http://localhost:7070/media', {
+                method: 'POST',
+                body: newForm,
+            })
          }
 
-        this.data = null;
+        this.dataText = null;
+        this.dataMedia = null;
         this.typeInput = null;
     }
 
     checkInputValue() {
-        if (this.data.includes('http://') || this.data.includes('https://')) {
+        if (this.typeInput !== null) {
+            return;
+        }
+        if (this.dataText.includes('http://') || this.dataText.includes('https://')) {
             this.typeInput = 'link';
             return;
         }
-        this.typeInput === 'text';
+        this.typeInput = 'text';
     }
 
     uploadFile(value) {
@@ -115,26 +146,118 @@ export default class WidgetController {
         }
 
         if (file.type.includes('image')) {
+            this.typeInput = 'image';
             console.log('image')
         } else if (file.type.includes('audio')) {
+            this.typeInput = 'audio';
             console.log('audio')
         } else if (file.type.includes('video')) {
+            this.typeInput = 'video';
             console.log('video')
         } else {
             this.widget.formInputFiles.value = '';
             return;
         }
 
-        console.log(file.type);
-        
-        const reader = new FileReader();
-        reader.addEventListener('load', (event) => {
-          const content = event.target.result;
-          console.log(content);
-        //   new FieldImages(content, 'картинка');
-          this.input.value = '';
-        });
-    
-        reader.readAsDataURL(file);
+        this.dataMedia = file;
       }
 }
+
+// Дальше шлачный код на всякий случай
+// Дальше шлачный код на всякий случай
+// Дальше шлачный код на всякий случай
+// Дальше шлачный код на всякий случай
+// Дальше шлачный код на всякий случай
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // console.log(file.type);
+
+        // this.dataMedia = new Blob([this.dataMedia], {
+        //     type: this.dataMedia.type,
+        // });
+        
+        // let reader = new FileReader()
+        // let buf = new ArrayBuffer()
+
+        // reader.addEventListener('load', (e) => {
+        //     buf = e.target.result
+        //     console.log(buf)
+        //     this.dataMedia = {
+        //         sourse: e.target.result,
+        //         fileName: file.name,
+        //         filetype: file.type,
+        //     }
+
+        //     console.log()
+
+        //     this.ws.send(e.target.result);
+
+        // console.log('Перевод объекта в 64 завршен');
+
+        // const url = 'data:image/png;base6....';
+
+            // fetch(e.target.result)
+            // .then(res => res.blob())
+            // .then(blob => {
+            //     const file = new File([blob], "File name",{ type: "image/png" });
+            //     console.log("декодирование завершено")
+            //     console.log(file);
+            // })
+
+
+
+
+            // rawData = e.target.result;
+
+            // const obj = {
+            //     type: 'image',
+            //     data: {
+            //         content: {
+            //             sourse: rawData
+            //         },
+            //         date: Date.now(),
+            //     }
+            // };
+            // // console.log(JSON.stringify(newData));
+            // this.ws.send(JSON.stringify(obj));
+            // console.log('отправили данные')
+
+        //     }
+        // )
+
+
+        // reader.readAsArrayBuffer(file);
+
+
+
+
+        // console.log(this.dataMedia);
+        // const reader = new FileReader();
+        // reader.addEventListener('load', (event) => {
+        //   const content = event.target.result;
+        // //   console.log(content);
+        // //   new FieldImages(content, 'картинка');
+        // this.widget.formInputFiles.value = '';
+        // });
+    
+        // reader.readAsDataURL(file);
