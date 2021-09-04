@@ -1,0 +1,86 @@
+.block-form-input-content {
+  position: relative;
+}
+
+.block-preview-files {
+  position: absolute;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid orange;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.preview-files-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.preview-files-item-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.preview-files-item-icon {
+  width: 40px;
+  height: 40px;
+  background-image: url('./../../../image/download.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin-right: 10px;
+}
+
+.preview-files-item-delete-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview-files-item-delete-icon::after {
+  content: '\2716';
+  font-size: 24px;
+  display: inline-block;
+}
+
+.download-file__link {
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-image: url('./../../../image/download.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+
+.form-input-files_wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.form-input-files_wrapper {
+  background: #ffffff;
+  padding: 5px;
+}
+
+.form-input-files-drop-field {
+  border: 2px dashed #818181;
+  border-radius: 10px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-input-files_active {
+  border-color: orange;
+  color: orange;
+}

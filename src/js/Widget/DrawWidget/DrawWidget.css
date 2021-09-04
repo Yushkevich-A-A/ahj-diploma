@@ -67,9 +67,6 @@
     font-size: 20px;
   }
   
-  
-  
-  
   .header-menu {
     position: relative;
   }
@@ -77,7 +74,6 @@
   .logo-menu {
     width: 40px;
     height: 40px;
-    margin-right: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -143,32 +139,15 @@
     align-items: center;
   }
 
-  .download-file {
-    width: 40px;
-    height: 40px;
-  }
-
-  .download-file__img {
-    width: 100%;
-  }
-
-
-
   .message {
     margin: 10px;
     color: #000;
   }
 
-  .item__audio,
-  .item__video,
-  .item__img {
-    width: 100%;
-  }
-
   .message__audio,
   .message__video,
   .message__img {
-    width: 100%;
+    max-width: 100%;
   }
 
 
@@ -220,30 +199,25 @@
     position: relative;
     height: 100px;
   }
+/* 
+  .form-input-files-drop-field_text {
+    color: inherit;
+  } */
 
+  /* визуализация блока дополнительных функций */
 
-  .form-input-files_wrapper {
+  .additional-send {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-  
-  .form-input-files_wrapper {
-    background: #ffffff;
-    padding: 5px;
   }
 
-  .form-input-files-drop-field {
-    border: 2px dashed #818181;
-    border-radius: 10px;
-    height: 100%;
+  .additional-send-list {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    padding: 10px;
   }
 
-  .form-input-files-drop-field:hover {
-    border-color: orange;
+  .additional-send-item {
+    margin-left: 10px;
+    border: 1px solid #818181;
   }
