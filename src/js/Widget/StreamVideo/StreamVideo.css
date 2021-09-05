@@ -1,0 +1,6 @@
+.item-video {
+    background-image: url(./image/camera.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}

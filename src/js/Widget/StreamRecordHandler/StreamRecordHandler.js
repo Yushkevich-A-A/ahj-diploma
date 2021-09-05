@@ -1,5 +1,3 @@
-// import aud from './testVideo/videoplayback';
-
 import moment from "moment";
 import 'moment/locale/ru';
 moment().locale('ru');
@@ -14,7 +12,7 @@ export default class StreamRecordHandler {
 
     init() {
         this.drawHandlerField();
-        // this.drawStreamVideoBlock()
+        this.drawStreamVideoBlock()
     }
 
     drawHandlerField() {
@@ -49,14 +47,13 @@ export default class StreamRecordHandler {
 
     }
 
-    // drawStreamVideoBlock() {
-    //     this.streamBlock = document.createElement('div');
-    //     this.streamBlock.classList.add('stream-block');
-    //     this.streamBlock.innerHTML = `<video control class="video-stream" muted></video>`;
-    //     this.widget.blockDisplayContent.appendChild(this.streamBlock);
-    //     this.videoStream = this.streamBlock.querySelector('.video-stream');
-    //     // this.videoStream.src  = 'https://youtu.be/EwYO4rwC6qw?list=PLt5nrEHWOIJI-kH7TeOUxb2sbux-0btfJ'
-    // }
+    drawStreamVideoBlock() {
+        this.streamBlock = document.createElement('div');
+        this.streamBlock.classList.add('stream-block', 'disable');
+        this.streamBlock.innerHTML = `<video control class="video-stream" muted></video>`;
+        this.widget.blockDisplayContent.appendChild(this.streamBlock);
+        this.videoStream = this.streamBlock.querySelector('.video-stream');
+    }
 
     timerStart() {
         let ms = 0;
@@ -72,16 +69,11 @@ export default class StreamRecordHandler {
         this.timer = null;
     }
 
-    // activateStreamVideoBlock() {
-    //     this.streamBlock.classList.remove('disable');
-    //     this.createPositionVideoStream();
-    // }
+    activateStreamVideoBlock() {
+        this.streamBlock.classList.remove('disable');
+    }
 
-    // deactivateStreamVideoBlock() {
-    //     this.streamBlock.classList.add('disable');
-    // }
-
-    // createPositionVideoStream() {
-    //     this.streamBlock.style.top = -this.streamBlock.offsetHeight - 10 + 'px';
-    // }
+    deactivateStreamVideoBlock() {
+        this.streamBlock.classList.add('disable');
+    }
 }

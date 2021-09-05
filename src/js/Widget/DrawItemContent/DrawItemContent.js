@@ -7,7 +7,6 @@ export default class DrawItemContent {
     constructor(url, contentList) {
         this.url = url;
         this.contentList = contentList;
-        this.scrollElement = this.contentList.closest('.block-display-content');
         this.drawInit = false;
     }
 
@@ -21,7 +20,7 @@ export default class DrawItemContent {
     }
 
     drawContent(item, newMessage = false) {
-        const possitionToBottom = this.scrollElement.scrollHeight - this.scrollElement.scrollTop - this.scrollElement.offsetHeight
+        const possitionToBottom = this.contentList.scrollHeight - this.contentList.scrollTop - this.contentList.offsetHeight
         if (newMessage && possitionToBottom < 30) {
             this.drawInit = true;
         }
@@ -135,7 +134,7 @@ export default class DrawItemContent {
         messageVideo.src = this.url + data.content.link;
         this.addElementToDom(newMessage, li);
         const init = this.drawInit;
-        messageVideo.onload = () => this.funcScroll(init);
+        messageVideo.oncanplay = () => this.funcScroll(init);
     }
 
     newAudio(data, newMessage) {
@@ -224,14 +223,14 @@ export default class DrawItemContent {
 
     scrollToBottom() {
         console.log('pf[j;e d aeyrwb.')
-        const possitionToBottom = this.scrollElement.scrollHeight - this.scrollElement.scrollTop - this.scrollElement.offsetHeight
+        const possitionToBottom = this.contentList.scrollHeight - this.contentList.scrollTop - this.contentList.offsetHeight
         if ( possitionToBottom < 30) {
-            this.scrollElement.scrollTop = this.scrollElement.scrollHeight;
+            this.contentList.scrollTop = this.contentList.scrollHeight;
         }
     }
 
     scrollToBottomAnyWay() {
-        this.scrollElement.scrollTop = this.scrollElement.scrollHeight;
+        this.contentList.scrollTop = this.contentList.scrollHeight;
     }
 
     linkNameValidity(data) {

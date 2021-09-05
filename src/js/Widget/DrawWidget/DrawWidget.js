@@ -150,7 +150,7 @@ export default class DrawWidget {
     }
 
     scrollToBottom() {
-        this.blockDisplayContent.scrollTop = this.blockDisplayContent.scrollHeight
+        this.contentList.scrollTop = this.contentList.scrollHeight
     }
 
     visiableBlockFiles() {

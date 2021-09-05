@@ -35,6 +35,9 @@ export default class StreamVideo {
     
           this.recorder.addEventListener('start', (event) => {
             this.recordHandler.activateHandlerBlock('video');
+            this.recordHandler.activateStreamVideoBlock();
+            this.recordHandler.videoStream.srcObject = stream;
+            this.recordHandler.videoStream.play();
           });
     
           this.recorder.addEventListener('dataavailable', (event) => {
@@ -42,6 +45,7 @@ export default class StreamVideo {
           });
     
           this.recorder.addEventListener('stop', (event) => {
+            this.recordHandler.deactivateStreamVideoBlock();
             stream.getTracks().forEach((track) => track.stop());
             if (this.cancelationRecord) {
                 console.log('запись отменена');
@@ -50,15 +54,16 @@ export default class StreamVideo {
                 return;
             }
             console.log('запись готова к отправке')
-            const fileName = uuidv4() + '.mp3';
-            const blob = new File(chunks, fileName, {});
+            const fileName = uuidv4() + '.mp4';
+            console.log(chunks);
+            const blob = new File(chunks, fileName);
             console.log(blob)
             handler(blob);
             this.recorder = null;
           });
           this.recorder.start();
         } catch (err) {
-            this.error.showErrorAPI('К сожалению, использование микрофона запрещено, пожалуйста, дайте разрешение на использование микрофона или используйте другой браузер')
+            this.error.showErrorAPI('К сожалению, использование микрофона или камеры запрещено, пожалуйста, дайте разрешение на использование микрофона и камеры или используйте другой браузер')
         }
       }
 
