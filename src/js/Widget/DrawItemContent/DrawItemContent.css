@@ -1,0 +1,20 @@
+.location {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.location::before {
+    content: '';
+    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    background-image: url(./image/location.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}

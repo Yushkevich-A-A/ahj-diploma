@@ -1,0 +1,55 @@
+.stream-block {
+    position: absolute;
+    bottom: 0;
+  }
+
+  .video-stream {
+    width: 100%;
+  }
+
+.block-track-audio-video {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #fff;
+    border: 1px solid gray;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 15px;
+  }
+
+  .button-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid gray;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .block-track-submit::before {
+    content: '\2714';
+  }
+  
+  .block-track-cancel::before {
+    content: '\2718';
+  }
+  
+  .block-track-submit::before,
+  .block-track-cancel::before {
+    font-size: 20px;
+    color: #a8a8a8;
+    display: block;
+  }
+  
+  .block-track-timer {
+    margin-left: 30px;
+    margin-right: 30px;
+    width: 50px;
+    text-align: center;
+  }

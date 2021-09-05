@@ -18,11 +18,9 @@ export default class DrawItemContent {
             }
             this.drawContent(i);
         }
-
     }
 
     drawContent(item, newMessage = false) {
-
         const possitionToBottom = this.scrollElement.scrollHeight - this.scrollElement.scrollTop - this.scrollElement.offsetHeight
         if (newMessage && possitionToBottom < 30) {
             this.drawInit = true;
@@ -43,8 +41,10 @@ export default class DrawItemContent {
             case 'image':
                 this.newImage(item.data, newMessage);
                 break;
+            case 'location':
+                this.newLocation(item.data, newMessage);
+                break;
         }
-
     }
 
     newText(data, newMessage) {
@@ -59,7 +59,7 @@ export default class DrawItemContent {
         const messageDate = li.querySelector('.message-date');
         messageDate.textContent = moment(data.date).format('DD.MM.YYYY HH:mm');
         const contentMessage = li.querySelector('.message');
-        contentMessage.textContent = data.content;
+        contentMessage.textContent = data.content.text;
         const init = this.drawInit;
         this.addElementToDom(newMessage, li);
         this.funcScroll(init);
@@ -76,13 +76,31 @@ export default class DrawItemContent {
         li.dataset.idPost = data.id;
         
         const contentMessage = li.querySelector('.link');
-        contentMessage.href = data.content;
+        contentMessage.href = data.content.text;
         contentMessage.target = '_blank'
-        contentMessage.textContent = data.content;
+        contentMessage.textContent = this.linkNameValidity(data.content.text);
         this.addElementToDom(newMessage, li);
         const init = this.drawInit;
         this.funcScroll(init);
 
+    }
+
+    newLocation(data, newMessage) {
+        const li = document.createElement('li');
+        li.classList.add('item-content');
+        li.innerHTML = `<div class="content-message">
+                            <div class="message-date"></div>
+                            <div class="message location"></div>
+                        </div>`;
+        li.dataset.idPost = data.id;
+
+        const messageDate = li.querySelector('.message-date');
+        messageDate.textContent = moment(data.date).format('DD.MM.YYYY HH:mm');
+        const contentMessage = li.querySelector('.message');
+        contentMessage.textContent = `широта: ${data.content.text.latitude}, долгота: ${data.content.text.longitude}`;
+        const init = this.drawInit;
+        this.addElementToDom(newMessage, li);
+        this.funcScroll(init);
     }
 
     newVideo(data, newMessage) {
@@ -214,5 +232,14 @@ export default class DrawItemContent {
 
     scrollToBottomAnyWay() {
         this.scrollElement.scrollTop = this.scrollElement.scrollHeight;
+    }
+
+    linkNameValidity(data) {
+        const value = data;
+        if (value.length < 60) {
+            return value;
+        }
+
+        return value.slice(0,61) + "...";
     }
 }

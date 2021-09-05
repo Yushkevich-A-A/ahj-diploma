@@ -1,10 +1,12 @@
 export default class WidgetController {
-    constructor(url, widget, contentList, upload, location) {
+    constructor(url, widget, contentList, upload, location, audio, video) {
         this.url = url;
         this.widget = widget;
         this.contentList = contentList;
         this.upload = upload;
         this.location = location;
+        this.audio = audio;
+        this.video = video;
         this.alreadyInit = false;
         this.permissionForNewPosts = false;
         this.typeInput = null;
@@ -24,10 +26,6 @@ export default class WidgetController {
             if (!event.target.closest('.link')) {
                 event.preventDefault();
             }
-
-            // if (event.target.closest('.logo-menu')) {
-            //     this.widget.openAddMenu();
-            // }
 
              if (event.target.closest('.additional-send-menu__button')) {
                 this.widget.openAddFunctions();
@@ -63,22 +61,58 @@ export default class WidgetController {
             // Дополнительные кнопки
 
             if (event.target.closest('.item-location')) {
-                this.location.getLocation(data => console.log(data));
+                this.location.getLocation(data => {
+                    this.widget.openAddFunctions();
+                    this.typeInput = 'location';
+                    this.dataText = { latitude: data.coords.latitude, longitude: data.coords.longitude };
+                    this.sentDataToServer();
+                });
+            }
+
+            // аудио
+
+            if (event.target.closest('.item-audio')) {
+                this.audio.recordAudio(data => {
+                    this.typeInput = 'audio';
+                    this.dataMedia = data;
+                    this.sentDataToServer();
+                })
+            }
+
+            // кнопки audio
+
+            if (event.target.closest('.track-submit-audio')) {
+                this.audio.stopRecord();
+            }
+
+            if (event.target.closest('.track-cancel-audio')) {
+                this.audio.cancelRecord();
+            }
+
+            // видео
+
+            if (event.target.closest('.item-video')) {
+                this.video.recordVideo(data => {
+                    this.typeInput = 'video';
+                    this.dataMedia = data;
+                    this.sentDataToServer();
+                })
+            }
+
+            // кнопки video
+
+            if (event.target.closest('.track-submit-video')) {
+                this.video.stopRecord();
+            }
+
+            if (event.target.closest('.track-cancel-video')) {
+                this.video.cancelRecord();
             }
         })
 
         this.widget.formInputFiles.addEventListener('input', event => {
             this.uploadFile(event);
         })
-
-        // document.addEventListener('dragenter', event => {
-        //     console.log(event.target)
-        //     // if (event.target.closest('.body')) {
-        //     //     this.widget.disableBlockFiles();
-        //     //     return;
-        //     // }
-
-        // })
 
         document.addEventListener('dragover', event => {
             event.preventDefault();
@@ -146,13 +180,13 @@ export default class WidgetController {
         const obj = {
             type: this.typeInput,
             data: {
+                content: {},
                 date: Date.now(),
             }
         };
 
-        if (this.typeInput === 'text' || this.typeInput === 'link') {
+        if (this.typeInput === 'text' || this.typeInput === 'link' || this.typeInput === 'location') {
             obj.data.content.text = this.dataText;
-
             fetch('http://localhost:7070/text', {method: 'POST', body: JSON.stringify(obj)})
         }
 

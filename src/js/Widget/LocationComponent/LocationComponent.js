@@ -1,20 +1,15 @@
 export default class LocationComponent {
-    constructor(widget) {
+    constructor(widget, error) {
         this.widget = widget;
+        this.error = error;
         this.fieldComponent = widget.additionalSendList;
-        this.availableLocation = false;
-
-        this.hideErrorCoord = this.hideErrorCoord.bind(this);
-        this.showErrorCoord = this.showErrorCoord.bind(this);
-
+        this.availableLocation = false;//???????????????
         this.init()
     }
 
     init() {
         this.drawLocationSign();
-        this.drawError();
         this.availableLocationAPI();
-        // this.addListeners();
     }
 
     drawLocationSign() {
@@ -27,36 +22,10 @@ export default class LocationComponent {
         this.availableLocation = !!navigator.geolocation;
     }
 
-    drawError() {
-        this.errorCoord = document.createElement('div');
-        this.errorCoord.classList.add('error-location-wrapper', 'disable');
-        this.errorCoord.innerHTML = `<div class="errorCoord-coord">
-                            <div class="errorCoord-desc">
-                              <p class="errorCoord-text">Что-то пошло не так</p>
-                              <p class="errorCoord-text">К сожалению, нам не удалось определить ваше местоположение, пожалуйста, дайте разрешение на использование геолокации</p>
-                            </div>
-                              <div class="block-buttons">
-                                <button class="button-form-errorCoord errorCoord-submit">Закрыть</button>
-                              </div>
-                            </form>
-                          </div>`;
-        document.body.appendChild(this.errorCoord);
-        this.errorCoordCancel = this.errorCoord.querySelector('.errorCoord-submit');
-        this.errorCoordCancel.onclick = this.hideErrorCoord;
-    }
-
     getLocation(handler) {
         navigator.geolocation.getCurrentPosition(
             (pos) => handler(pos),
-            () => this.showErrorCoord(),
+            () => this.error.showErrorAPI('К сожалению, нам не удалось определить ваше местоположение, пожалуйста, дайте разрешение на использование геолокации'),
           )
     }
-
-    showErrorCoord() {
-        this.errorCoord.classList.remove('disable');
-    }
-
-    hideErrorCoord() {
-        this.errorCoord.classList.add('disable');
-      }
 }
