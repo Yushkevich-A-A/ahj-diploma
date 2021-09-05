@@ -1,3 +1,8 @@
+import moment from "moment";
+import "moment/locale/ru";
+
+moment().locale('ru')
+
 export default class WidgetController {
     constructor(url, widget, contentList, upload, location, audio, video) {
         this.url = url;
@@ -136,8 +141,8 @@ export default class WidgetController {
             }
         });
 
-        this.widget.blockDisplayContent.addEventListener('scroll', event => {
-            if (event.target.scrollTop > 100) {
+        this.widget.contentList.addEventListener('scroll', event => {
+            if (event.target.scrollTop > 50) {
                 return;
             } 
 
@@ -190,6 +195,13 @@ export default class WidgetController {
             fetch('http://localhost:7070/text', {method: 'POST', body: JSON.stringify(obj)})
         }
 
+        if (this.typeInput === 'notification') {
+            obj.data.content.title = this.dataText.title;
+            obj.data.content.body = this.dataText.body;
+            obj.data.content.date = this.dataText.date;
+            fetch('http://localhost:7070/text', {method: 'POST', body: JSON.stringify(obj)})
+        }
+
          if (this.typeInput === 'image' || this.typeInput === 'video' || this.typeInput === 'audio') {  
             if (this.dataText) {
                 obj.data.content.text = this.dataText;
@@ -216,6 +228,7 @@ export default class WidgetController {
         }
 
         if (this.dataText === null) {
+
             return;
         }
 
@@ -223,6 +236,23 @@ export default class WidgetController {
             this.typeInput = 'link';
             return;
         }
+
+        if (this.dataText.includes('@schedule:')) {
+            this.typeInput = 'notification';
+            const obj = { title: "уведомление"};
+            let data = this.dataText.split('\@schedule:').join('').split('"').map(item => item.trim());
+            obj.body = data[1];
+            obj.date = moment(data[0], 'HH:mm DD.MM.YYYY').valueOf();
+            if (Date.now() > obj.date) {
+                console.log('неверная дата')
+                this.typeInput = null;
+                this.dataText = null;
+                return;
+            }
+            this.dataText = obj;
+            return;
+        }
+
         this.typeInput = 'text';
     }
 

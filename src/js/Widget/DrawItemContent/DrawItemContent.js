@@ -4,9 +4,10 @@ import 'moment/locale/ru';
 moment().locale('ru');
 
 export default class DrawItemContent {
-    constructor(url, contentList) {
+    constructor(url, contentList, notification) {
         this.url = url;
         this.contentList = contentList;
+        this.notification = notification;
         this.drawInit = false;
     }
 
@@ -42,6 +43,9 @@ export default class DrawItemContent {
                 break;
             case 'location':
                 this.newLocation(item.data, newMessage);
+                break;
+            case 'notification':
+                this.notification.createNotification(item.data, newMessage);
                 break;
         }
     }
