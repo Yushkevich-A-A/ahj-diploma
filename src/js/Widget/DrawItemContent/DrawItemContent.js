@@ -55,7 +55,7 @@ export default class DrawItemContent {
         li.classList.add('item-content');
         li.innerHTML = `<div class="content-message">
                             <div class="message-date"></div>
-                            <div class="message"></div>
+                            <span class="message"></span>
                         </div>`;
         li.dataset.idPost = data.id;
 
@@ -126,16 +126,9 @@ export default class DrawItemContent {
         li.dataset.idPost = data.id;
         li.dataset.filename = data.content.link;
         const downloadLink = li.querySelector('.download-file__link');
-        downloadLink.href = this.url + data.content.link;
-
-        if (data.content.text) {
-            const contentBlock = li.querySelector('.block-content');
-            const message = document.createElement('div');
-            message.classList.add('message');
-            contentBlock.insertAdjacentElement("beforeend", message); 
-        }
+        downloadLink.href = this.url + '/' + data.content.link;
         const messageVideo = li.querySelector('.message__video');
-        messageVideo.src = this.url + data.content.link;
+        messageVideo.src = this.url + '/' + data.content.link;
         this.addElementToDom(newMessage, li);
         const init = this.drawInit;
         messageVideo.oncanplay = () => this.funcScroll(init);
@@ -161,19 +154,12 @@ export default class DrawItemContent {
         li.dataset.idPost = data.id;
         li.dataset.filename = data.content.link;
         const downloadLink = li.querySelector('.download-file__link');
-        downloadLink.href = this.url + data.content.link;
-
-        if (data.content.text) {
-            const contentBlock = li.querySelector('.block-content');
-            const message = document.createElement('div');
-            message.classList.add('message');
-            contentBlock.insertAdjacentElement("beforeend", message); 
-        }
+        downloadLink.href = this.url + '/' + data.content.link;
         const messageAudio = li.querySelector('.message__audio');
-        messageAudio.src = this.url + data.content.link;
+        messageAudio.src = this.url + '/' + data.content.link;
         this.addElementToDom(newMessage, li);
         const init = this.drawInit
-        messageAudio.onload = () => this.funcScroll(init);
+        messageAudio.oncanplay = () => this.funcScroll(init);
         
     }
 
@@ -196,17 +182,10 @@ export default class DrawItemContent {
         li.dataset.idPost = data.id;
         li.dataset.filename = data.content.link;
         const downloadLink = li.querySelector('.download-file__link');
-        downloadLink.href = this.url + data.content.link;
+        downloadLink.href = this.url + '/' + data.content.link;
         downloadLink.download = data.content.link;
-
-        if (data.content.text) {
-            const contentBlock = li.querySelector('.block-content');
-            const message = document.createElement('div');
-            message.classList.add('message');
-            contentBlock.insertAdjacentElement("beforeend", message); 
-        }
         const messageImg = li.querySelector('.message__img');
-        messageImg.src = this.url + data.content.link;
+        messageImg.src = this.url + '/' + data.content.link;
         this.addElementToDom(newMessage, li);
         const init = this.drawInit;
         messageImg.onload = () => this.funcScroll(init);

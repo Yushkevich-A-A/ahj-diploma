@@ -16,7 +16,14 @@ export default class NotificationComponent {
         }
     }
 
+    createArrayNotifications(data) {
+        for(let i of data) {
+            this.createNotification(i.data);
+        }
+    }
+
     async createNotification(data) {
+        console.log(data);
         if (!window.Notification) {
             if (!this.anavailbleNotification) {
                 localStorage.setItem('anavailbleNotification', JSON.stringify(true))
@@ -26,7 +33,6 @@ export default class NotificationComponent {
         }
 
         if (Notification.permission ==='denied') {
-
             if (!this.notificationAboutDisable) {
                 localStorage.setItem('notificationAboutDisable', JSON.stringify(true))
                 this.error.showErrorAPI('уведомления отключены пользователем')
@@ -48,15 +54,13 @@ export default class NotificationComponent {
             if (Date.now() > data.date) {
                 return
             }
-
             const dalay = data.date - Date.now();
-            console.log(dalay)
             setTimeout(() => {
-                const notification = new Notification(data.title, {
-                    body: data.message,
+                const notification = new Notification(data.content.title, {
+                    body: data.content.message,
                     icon: ring,
                     requireInteraction: true,
-                })  
+                });
             }, dalay);
         }
     }

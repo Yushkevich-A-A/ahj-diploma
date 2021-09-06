@@ -189,6 +189,10 @@
   .send-message {
     width: 100%;
   }
+
+  .send-message-input {
+    position: relative;
+  }
   
   .form-input-content__input {
     width: 100%;

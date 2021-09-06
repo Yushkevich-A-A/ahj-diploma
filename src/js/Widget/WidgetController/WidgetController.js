@@ -4,7 +4,7 @@ import "moment/locale/ru";
 moment().locale('ru')
 
 export default class WidgetController {
-    constructor(url, widget, contentList, upload, location, audio, video) {
+    constructor(url, widget, contentList, upload, location, audio, video, notifications) {
         this.url = url;
         this.widget = widget;
         this.contentList = contentList;
@@ -12,8 +12,11 @@ export default class WidgetController {
         this.location = location;
         this.audio = audio;
         this.video = video;
+        this.notifications = notifications;
+
         this.alreadyInit = false;
         this.permissionForNewPosts = false;
+
         this.typeInput = null;
         this.dataText = null;
         this.dataMedia = null;
@@ -47,10 +50,7 @@ export default class WidgetController {
             }
 
             if (event.target.closest('.preview-files-item-delete-icon')) {
-                this.upload.deleteLoadFile(event.target);
-                this.widget.formInputFiles.value = '';
-                this.dataMedia = null;
-                this.typeInput = null;
+                this.resetUplodFile();
             }
 
             if (event.target.closest('.button-send-message')) {
@@ -59,7 +59,6 @@ export default class WidgetController {
                 if (this.dataText === null && this.typeInput === null) {
                     return;
                 }
-                this.upload.deleteAllLoadFiles();
                 this.sentDataToServer();
             }
 
@@ -116,7 +115,9 @@ export default class WidgetController {
         })
 
         this.widget.formInputFiles.addEventListener('input', event => {
+            this.resetUplodFile();
             this.uploadFile(event);
+            this.widget.formInputFiles.value = '';
         })
 
         document.addEventListener('dragover', event => {
@@ -137,6 +138,7 @@ export default class WidgetController {
             event.preventDefault();
             this.widget.disableBlockFiles();
             if (event.target.closest('.send-message-input_files')) {
+                this.resetUplodFile();
                 this.uploadFile({ target: event.dataTransfer });
             }
         });
@@ -165,6 +167,7 @@ export default class WidgetController {
                 this.previouseIndexPost = Math.min(...postIndexArr);
                 this.contentList.drawContentWidget(reverseData, true);
                 this.permissionForNewPosts = true;
+                this.notifications.createArrayNotifications(item.notifications);
                 return;
             } if (item.status === 'init') {
                 return;
@@ -192,34 +195,27 @@ export default class WidgetController {
 
         if (this.typeInput === 'text' || this.typeInput === 'link' || this.typeInput === 'location') {
             obj.data.content.text = this.dataText;
-            fetch('http://localhost:7070/text', {method: 'POST', body: JSON.stringify(obj)})
+            fetch(`${this.url}/text`, {method: 'POST', body: JSON.stringify(obj)})
         }
 
         if (this.typeInput === 'notification') {
             obj.data.content.title = this.dataText.title;
             obj.data.content.body = this.dataText.body;
-            obj.data.content.date = this.dataText.date;
-            fetch('http://localhost:7070/text', {method: 'POST', body: JSON.stringify(obj)})
+            obj.data.date = this.dataText.date;
+            fetch(`${this.url}/text`, {method: 'POST', body: JSON.stringify(obj)})
         }
 
          if (this.typeInput === 'image' || this.typeInput === 'video' || this.typeInput === 'audio') {  
-            if (this.dataText) {
-                obj.data.content.text = this.dataText;
-            }
-
             const newForm = new FormData();
             newForm.append('textData', JSON.stringify(obj));
             newForm.append('file', this.dataMedia);
 
-            fetch('http://localhost:7070/media', {
+            fetch(`${this.url}/media`, {
                 method: 'POST',
                 body: newForm,
             })
          }
-
-        this.dataText = null;
-        this.dataMedia = null;
-        this.typeInput = null;
+        this.resetUplodFile();
     }
 
     checkInputValue() {
@@ -244,7 +240,6 @@ export default class WidgetController {
             obj.body = data[1];
             obj.date = moment(data[0], 'HH:mm DD.MM.YYYY').valueOf();
             if (Date.now() > obj.date) {
-                console.log('неверная дата')
                 this.typeInput = null;
                 this.dataText = null;
                 return;
@@ -260,7 +255,7 @@ export default class WidgetController {
         const { target } = value;
     
         const file = target.files && target.files[0];
-    
+        this.widget.formInputFiles.value = '';
         if (!file) {
           return;
         }
@@ -272,16 +267,30 @@ export default class WidgetController {
         } else if (file.type.includes('video')) {
             this.typeInput = 'video';
         } else {
-            this.widget.formInputFiles.value = '';
+            
             return;
         }
         this.dataMedia = file;
         this.upload.visiableWidget();
-        this.upload.drawNewFile(this.dataMedia.name, 0);
+        this.upload.drawNewFile(this.dataMedia.name);
     }
 
+    resetUplodFile() {
+        this.upload.deleteLoadFile();
+        this.dataMedia = null;
+        this.typeInput = null;
+        this.dataText = null;
+    }
+
+    // deleteUploadFile() {
+    //     resetUplodFile()
+    //     this.widget.formInputFiles.value = '';
+    // }
+
+    
+
     async sendRequestForPreviousPosts() {
-        const request = await fetch(`http://localhost:7070/previousposts/${this.previouseIndexPost}`);
+        const request = await fetch(`${this.url}/previousposts/${this.previouseIndexPost}`);
         const response = await request.json();
         console.log(response.status)
         if (!response.status) {
@@ -295,7 +304,7 @@ export default class WidgetController {
     }
 
     async reqForDownloadImg(filename) {
-        const response = await fetch(`http://localhost:7070/download/${filename}`);
+        const response = await fetch(`${this.url}/download/${filename}`);
         const blob = await response.blob();
         console.log(blob);
         const link = document.createElement('a');

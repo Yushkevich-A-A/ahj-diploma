@@ -48,14 +48,14 @@ export default class DrawWidget {
                 </div>
                 <div class="block-form-input-content">
                     <div class="block-additional">
-                        <div class="block-preview-files disable">
-                            <ul class="preview-files-list">
-                            </ul>
-                        </div>
                         <div class="additional-send disable">
                             <ul class="additional-send-list">
                             </ul>
                         </div>
+                        <div class="emoji-widget disable">
+                            <ul class="emoji-list">
+                        </ul>
+                    </div>
                     </div>
                     <form class="form-input-content">
                         <div class="basil-function">
@@ -83,6 +83,10 @@ export default class DrawWidget {
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="block-preview-files disable">
+                                        <ul class="preview-files-list">
+                                    </ul>
+                                </div>
                                 </div>
                                 <div class="button button-send-message">
                                     <img class="button-send-message__img" src="${send}" alt="">
@@ -114,6 +118,8 @@ export default class DrawWidget {
         // блоки дополнительных функций
         this.additionalSend = this.widget.querySelector('.additional-send');
         this.additionalSendList = this.widget.querySelector('.additional-send-list');
+        this.emojiWidget = this.widget.querySelector('.emoji-widget');
+        this.emojilist = this.widget.querySelector('.emoji-list');
     }
 
     openAddMenu() {
