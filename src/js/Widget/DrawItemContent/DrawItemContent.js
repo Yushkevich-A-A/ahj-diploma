@@ -55,14 +55,19 @@ export default class DrawItemContent {
         li.classList.add('item-content');
         li.innerHTML = `<div class="content-message">
                             <div class="message-date"></div>
-                            <span class="message"></span>
                         </div>`;
         li.dataset.idPost = data.id;
 
         const messageDate = li.querySelector('.message-date');
         messageDate.textContent = moment(data.date).format('DD.MM.YYYY HH:mm');
-        const contentMessage = li.querySelector('.message');
-        contentMessage.textContent = data.content.text;
+        const contentMessage = li.querySelector('.content-message');
+
+        for(let sentence of data.content.text) {
+            const message = document.createElement('p');
+            message.classList.add('message');
+            message.textContent = sentence;
+            contentMessage.appendChild(message);
+        }
         const init = this.drawInit;
         this.addElementToDom(newMessage, li);
         this.funcScroll(init);

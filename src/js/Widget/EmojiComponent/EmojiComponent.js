@@ -2,7 +2,9 @@ export default class EmojiComponent {
     constructor(url, widget) {
         this.widget = widget;
         this.url = url;
+        this.emojiWidget = this.widget.emojiWidget;
         this.emojiList = this.widget.emojiList;
+        console.log(this.emojiList);
         this.downloadEmoji();
     }
 
@@ -10,6 +12,7 @@ export default class EmojiComponent {
         const response = await fetch(`${this.url}/emoji`);
         const data = await response.json();
 
+        this.drawArrayEmoji(data.data);
     }
 
     drawArrayEmoji(data) {
@@ -25,5 +28,22 @@ export default class EmojiComponent {
         const spanEmoji = li.querySelector('.emoji');
         spanEmoji.textContent = emoji;
         this.emojiList.appendChild(li);
+    }
+
+    triggerBlockEmodji() {
+        if (this.widget.emojiWidget.classList.contains('disable')) {
+            this.widget.emojiWidget.classList.remove('disable');
+            this.positionBlockEmoji(); 
+            return;
+        }
+        this.closeBlockEmodji();
+    }
+
+    closeBlockEmodji() {
+        this.widget.emojiWidget.classList.add('disable');
+    }
+
+    positionBlockEmoji() {
+        this.emojiWidget.style.top = -this.emojiWidget.offsetHeight - 10 + 'px';
     }
 }

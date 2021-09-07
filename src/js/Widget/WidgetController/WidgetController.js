@@ -4,7 +4,7 @@ import "moment/locale/ru";
 moment().locale('ru')
 
 export default class WidgetController {
-    constructor(url, widget, contentList, upload, location, audio, video, notifications) {
+    constructor(url, widget, contentList, upload, location, audio, video, notifications, emoji, helper) {
         this.url = url;
         this.widget = widget;
         this.contentList = contentList;
@@ -13,6 +13,8 @@ export default class WidgetController {
         this.audio = audio;
         this.video = video;
         this.notifications = notifications;
+        this.emoji = emoji;
+        this.helper = helper;
 
         this.alreadyInit = false;
         this.permissionForNewPosts = false;
@@ -35,25 +37,29 @@ export default class WidgetController {
                 event.preventDefault();
             }
 
-             if (event.target.closest('.additional-send-menu__button')) {
-                this.widget.openAddFunctions();
-            }
-
             if (event.target.closest('.download-file__link')) {
+                this.emoji.closeBlockEmodji();
+                this.widget.closeAddFunctions();
                 const mainElement = event.target.closest('.item-content');
                 const nameElement = mainElement.dataset.filename;
                 this.reqForDownloadImg(nameElement);
             }
 
             if (event.target.closest('.button-paperclip')) {
+                this.emoji.closeBlockEmodji();
+                this.widget.closeAddFunctions();
                 this.widget.formInputFiles.dispatchEvent(new MouseEvent('click'));
             }
 
             if (event.target.closest('.preview-files-item-delete-icon')) {
+                this.emoji.closeBlockEmodji();
+                this.widget.closeAddFunctions();
                 this.resetUplodFile();
             }
 
             if (event.target.closest('.button-send-message')) {
+                this.emoji.closeBlockEmodji();
+                this.widget.closeAddFunctions();
                 this.dataText = this.widget.validityInput();
                 this.checkInputValue();
                 if (this.dataText === null && this.typeInput === null) {
@@ -64,9 +70,16 @@ export default class WidgetController {
 
             // Дополнительные кнопки
 
+            if (event.target.closest('.additional-send-menu__button')) {
+                this.widget.triggerAddFunctions();
+                this.emoji.closeBlockEmodji();
+            }
+
+            // геопозиция
+
             if (event.target.closest('.item-location')) {
                 this.location.getLocation(data => {
-                    this.widget.openAddFunctions();
+                    this.widget.closeAddFunctions();
                     this.typeInput = 'location';
                     this.dataText = { latitude: data.coords.latitude, longitude: data.coords.longitude };
                     this.sentDataToServer();
@@ -77,6 +90,7 @@ export default class WidgetController {
 
             if (event.target.closest('.item-audio')) {
                 this.audio.recordAudio(data => {
+                    this.widget.closeAddFunctions();
                     this.typeInput = 'audio';
                     this.dataMedia = data;
                     this.sentDataToServer();
@@ -97,6 +111,7 @@ export default class WidgetController {
 
             if (event.target.closest('.item-video')) {
                 this.video.recordVideo(data => {
+                    this.widget.closeAddFunctions();
                     this.typeInput = 'video';
                     this.dataMedia = data;
                     this.sentDataToServer();
@@ -112,6 +127,29 @@ export default class WidgetController {
             if (event.target.closest('.track-cancel-video')) {
                 this.video.cancelRecord();
             }
+
+            // emoji
+
+            if (event.target.closest('.button-emoji')) {
+                this.widget.closeAddFunctions();
+                this.emoji.triggerBlockEmodji()
+            }
+
+            if (event.target.closest('.emoji')) {
+                this.widget.formInputContent.value += event.target.textContent;
+            }
+
+            // подсказка доступных команд
+
+            if (event.target.closest('.item-helper')) {
+                this.widget.closeAddFunctions();
+                this.helper.showHelperAPI();
+            }
+        });
+
+        this.widget.formInputContent.addEventListener('focus', () => {
+            this.emoji.closeBlockEmodji();
+            this.widget.closeAddFunctions();
         })
 
         this.widget.formInputFiles.addEventListener('input', event => {
@@ -122,6 +160,9 @@ export default class WidgetController {
 
         document.addEventListener('dragover', event => {
             event.preventDefault();
+
+            this.emoji.closeBlockEmodji();
+            this.widget.closeAddFunctions();
 
             if (event.target.closest('.body')) {
                 this.widget.visiableBlockFiles();
@@ -194,7 +235,8 @@ export default class WidgetController {
         };
 
         if (this.typeInput === 'text' || this.typeInput === 'link' || this.typeInput === 'location') {
-            obj.data.content.text = this.dataText;
+            obj.data.content.text = this.dataText.split('\n');
+            console.log(JSON.stringify(obj));
             fetch(`${this.url}/text`, {method: 'POST', body: JSON.stringify(obj)})
         }
 

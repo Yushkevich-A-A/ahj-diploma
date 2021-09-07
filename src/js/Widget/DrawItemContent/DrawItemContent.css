@@ -18,3 +18,12 @@
     background-position: center;
     background-size: contain;
 }
+
+.link {
+    color: blue;
+    padding: 10px;
+  }
+  
+.link:hover {
+color: orange;
+}

@@ -119,7 +119,7 @@ export default class DrawWidget {
         this.additionalSend = this.widget.querySelector('.additional-send');
         this.additionalSendList = this.widget.querySelector('.additional-send-list');
         this.emojiWidget = this.widget.querySelector('.emoji-widget');
-        this.emojilist = this.widget.querySelector('.emoji-list');
+        this.emojiList = this.widget.querySelector('.emoji-list');
     }
 
     openAddMenu() {
@@ -130,12 +130,16 @@ export default class DrawWidget {
         this.additionalMenu.classList.add('disable');
     }
 
-    openAddFunctions() {
+    triggerAddFunctions() {
         if (this.additionalSend.classList.contains('disable')) {
             this.additionalSend.classList.remove('disable');
             this.getPositionAddFunctions();
             return;
         }
+        this.closeAddFunctions();
+    }
+
+    closeAddFunctions() {
         this.additionalSend.classList.add('disable');
     }
 

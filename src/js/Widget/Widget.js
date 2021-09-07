@@ -8,6 +8,8 @@ import WidgetController from "./WidgetController/WidgetController";
 import StreamAudio from "./StreamAudio/StreamAudio";
 import StreamVideo from "./StreamVideo/StreamVideo";
 import NotificationComponent from "./NotificationComponent/NotificationComponent";
+import EmojiComponent from "./EmojiComponent/EmojiComponent";
+import HelperComponent from "./HelperComponent/HelperComponent";
 
 const url = 'http://localhost:7070';
 
@@ -20,6 +22,17 @@ const audioComponent = new StreamAudio(widget, streamRecordComponent, errorAPI);
 const videoComponent = new StreamVideo(widget, streamRecordComponent, errorAPI);
 const notificationComponent = new NotificationComponent(errorAPI);
 const upload = new UploadFiles(widget);
+const emoji = new EmojiComponent(url, widget);
+const helper = new HelperComponent(widget);
 
 const drawContentList = new DrawItemContent(url, widget.contentList, notificationComponent)
-const controller = new WidgetController(url, widget, drawContentList, upload, locationComponent, audioComponent, videoComponent, notificationComponent);
+const controller = new WidgetController(url, 
+                                        widget, 
+                                        drawContentList, 
+                                        upload, 
+                                        locationComponent, 
+                                        audioComponent, 
+                                        videoComponent, 
+                                        notificationComponent,
+                                        emoji,
+                                        helper);

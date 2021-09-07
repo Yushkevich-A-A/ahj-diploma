@@ -15,14 +15,6 @@ body {
   background-image: url('./../image/patternbg.png');
 }
 
-.link {
-  color: blue;
-}
-
-.link:hover {
-  color: orange;
-}
-
 .disable {
   display: none;
 }
