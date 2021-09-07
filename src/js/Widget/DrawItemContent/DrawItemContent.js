@@ -26,6 +26,9 @@ export default class DrawItemContent {
             this.drawInit = true;
         }
         switch (item.type) {
+            case 'chaos':
+                this.newBotResponse(item.data, newMessage);
+                break;
             case 'text':
                 this.newText(item.data, newMessage);
                 break;
@@ -48,6 +51,37 @@ export default class DrawItemContent {
                 this.notification.createNotification(item.data, newMessage);
                 break;
         }
+    }
+
+    newBotResponse(data, newMessage) {
+        const li = document.createElement('li');
+        li.classList.add('item-content', 'bot-response');
+        li.innerHTML = `<div class="content-message">
+                            <div class="info-content">
+                                <div class="message-date"></div>
+                                <div class="response-chaos">From Chaos</div>
+                            </div>
+                        </div>`;
+
+        const messageDate = li.querySelector('.message-date');
+        messageDate.textContent = moment().format('DD.MM.YYYY HH:mm');
+
+        const contentMessage = li.querySelector('.content-message');
+
+        for(let sentence of data) {
+            const message = document.createElement('p');
+            message.classList.add('message');
+            if (Array.isArray(sentence)) {
+                message.innerHTML = `<a class="link" href="tel:${sentence[1]}">${sentence[1]}</a>`;
+                message.insertAdjacentText('afterbegin', sentence[0]);
+            } else {
+                message.textContent = sentence;
+            }
+            contentMessage.appendChild(message);
+        }
+        const init = this.drawInit;
+        this.addElementToDom(newMessage, li);
+        this.funcScroll(init);
     }
 
     newText(data, newMessage) {
@@ -210,7 +244,6 @@ export default class DrawItemContent {
     }
 
     scrollToBottom() {
-        console.log('pf[j;e d aeyrwb.')
         const possitionToBottom = this.contentList.scrollHeight - this.contentList.scrollTop - this.contentList.offsetHeight
         if ( possitionToBottom < 30) {
             this.contentList.scrollTop = this.contentList.scrollHeight;

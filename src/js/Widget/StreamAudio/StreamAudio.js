@@ -25,7 +25,6 @@ export default class StreamAudio {
     async recordAudio(handler) {
 
         try {
-        this.widget.openAddFunctions();
           const stream = await navigator.mediaDevices.getUserMedia({
             audio: true,
             video: false,

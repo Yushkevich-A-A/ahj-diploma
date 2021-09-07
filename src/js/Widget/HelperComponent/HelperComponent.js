@@ -1,7 +1,8 @@
 export default class HelperComponent {
     constructor(widget) {
         this.widget = widget;
-        this.fieldComponent = widget.additionalSendList;
+        this.blockDisplayContent = this.widget.blockDisplayContent;
+        this.fieldComponent = this.widget.additionalSendList;
         this.hideHelperAPI = this.hideHelperAPI.bind(this);
         this.init()
     }
@@ -37,7 +38,7 @@ export default class HelperComponent {
                               </div>
                             </form>
                           </div>`;
-        document.body.appendChild(this.helperAPI);
+        this.blockDisplayContent.appendChild(this.helperAPI);
         this.helperAPItext = this.helperAPI.querySelector('.text-helper');
         this.helperAPICancel = this.helperAPI.querySelector('.helper-api-submit');
         this.helperAPICancel.onclick = this.hideHelperAPI;

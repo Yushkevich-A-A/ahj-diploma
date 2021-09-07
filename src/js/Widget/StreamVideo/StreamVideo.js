@@ -24,7 +24,6 @@ export default class StreamVideo {
 
     async recordVideo(handler) {
         try {
-        this.widget.openAddFunctions();
           const stream = await navigator.mediaDevices.getUserMedia({
             audio: true,
             video: true,

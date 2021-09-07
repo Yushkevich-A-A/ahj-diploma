@@ -46,6 +46,7 @@ export default class WidgetController {
             }
 
             if (event.target.closest('.button-paperclip')) {
+                this.helper.hideHelperAPI();
                 this.emoji.closeBlockEmodji();
                 this.widget.closeAddFunctions();
                 this.widget.formInputFiles.dispatchEvent(new MouseEvent('click'));
@@ -58,6 +59,7 @@ export default class WidgetController {
             }
 
             if (event.target.closest('.button-send-message')) {
+                this.helper.hideHelperAPI();
                 this.emoji.closeBlockEmodji();
                 this.widget.closeAddFunctions();
                 this.dataText = this.widget.validityInput();
@@ -71,6 +73,7 @@ export default class WidgetController {
             // Дополнительные кнопки
 
             if (event.target.closest('.additional-send-menu__button')) {
+                this.helper.hideHelperAPI();
                 this.widget.triggerAddFunctions();
                 this.emoji.closeBlockEmodji();
             }
@@ -131,6 +134,7 @@ export default class WidgetController {
             // emoji
 
             if (event.target.closest('.button-emoji')) {
+                this.helper.hideHelperAPI();
                 this.widget.closeAddFunctions();
                 this.emoji.triggerBlockEmodji()
             }
@@ -160,7 +164,7 @@ export default class WidgetController {
 
         document.addEventListener('dragover', event => {
             event.preventDefault();
-
+            this.helper.hideHelperAPI();
             this.emoji.closeBlockEmodji();
             this.widget.closeAddFunctions();
 
@@ -200,7 +204,6 @@ export default class WidgetController {
         const eventSourse = new EventSource(`${this.url}/sse`);
         eventSourse.addEventListener('message', (event) => {
             const item = JSON.parse(event.data);
-            console.log(item);
             if (item.status === 'init' && !this.alreadyInit) {
                 this.alreadyInit = true;
                 const reverseData = item.data.reverse();
@@ -234,17 +237,26 @@ export default class WidgetController {
             }
         };
 
-        if (this.typeInput === 'text' || this.typeInput === 'link' || this.typeInput === 'location') {
+        if (this.typeInput === 'chaos') {
+            obj.data.type = this.dataText[1];
+            fetch(`${this.url}/text`, {method: 'POST', body: JSON.stringify(obj)});
+        }
+
+        if (this.typeInput === 'location') {
+            obj.data.content.text = this.dataText;
+            fetch(`${this.url}/text`, {method: 'POST', body: JSON.stringify(obj)});
+        }
+
+        if (this.typeInput === 'text' || this.typeInput === 'link') {
             obj.data.content.text = this.dataText.split('\n');
-            console.log(JSON.stringify(obj));
-            fetch(`${this.url}/text`, {method: 'POST', body: JSON.stringify(obj)})
+            fetch(`${this.url}/text`, {method: 'POST', body: JSON.stringify(obj)});
         }
 
         if (this.typeInput === 'notification') {
             obj.data.content.title = this.dataText.title;
             obj.data.content.body = this.dataText.body;
             obj.data.date = this.dataText.date;
-            fetch(`${this.url}/text`, {method: 'POST', body: JSON.stringify(obj)})
+            fetch(`${this.url}/text`, {method: 'POST', body: JSON.stringify(obj)});
         }
 
          if (this.typeInput === 'image' || this.typeInput === 'video' || this.typeInput === 'audio') {  
@@ -267,6 +279,12 @@ export default class WidgetController {
 
         if (this.dataText === null) {
 
+            return;
+        }
+
+        if (this.dataText.includes('chaos')) {
+            this.typeInput = 'chaos';
+            this.dataText = this.dataText.split(' ');
             return;
         }
 

@@ -123,47 +123,6 @@
     position: relative;
   }
 
-  .message-date {
-     min-width: 150px;
-  }
-
-  .item-content {
-    margin-top: 20px;
-    max-width: 90%;;
-  }
-  
-  .content-message {
-    /* max-width: 90%; */
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid gray;
-    border-radius: 15px;
-  }
-
-  .block-date-download {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .message {
-    padding: 10px;
-    color: #000;
-  }
-
-  .message__audio,
-  .message__video,
-  .message__img {
-    max-width: 100%;
-  }
-
-
-  .button-send-message__img,
-  .button-emoji__img,
-  .button-paperclip__img {
-    width: 100%;
-  }
-
   .button-send-message {
     display: flex;
     justify-content: center;
@@ -210,10 +169,6 @@
     position: relative;
     height: 100px;
   }
-/* 
-  .form-input-files-drop-field_text {
-    color: inherit;
-  } */
 
   /* визуализация блока дополнительных функций */
 
