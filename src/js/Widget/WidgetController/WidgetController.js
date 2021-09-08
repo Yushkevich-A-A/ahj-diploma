@@ -177,7 +177,6 @@ export default class WidgetController {
 
     document.addEventListener('dragover', (event) => {
       event.preventDefault();
-      // console.log(event.relatedTarget)
       this.helper.hideHelperAPI();
       this.emoji.closeBlockEmodji();
       this.widget.closeAddFunctions();
@@ -315,7 +314,7 @@ export default class WidgetController {
 
     if (this.dataText.includes('@schedule:')) {
       this.typeInput = 'notification';
-      const obj = { title: 'уведомление' };
+      const obj = {};
       const data = this.dataText.split('\@schedule:').join('').split('"').map((item) => item.trim());
       obj.body = data[1];
       obj.date = moment(data[0], 'HH:mm DD.MM.YYYY').valueOf();
