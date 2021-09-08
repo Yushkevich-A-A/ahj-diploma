@@ -316,7 +316,7 @@ export default class WidgetController {
       this.typeInput = 'notification';
       const obj = {};
       const data = this.dataText.split('\@schedule:').join('').split('"').map((item) => item.trim());
-      obj.body = data[1];
+      obj.title = data[1];
       obj.date = moment(data[0], 'HH:mm DD.MM.YYYY').valueOf();
       if (Date.now() > obj.date) {
         this.typeInput = null;

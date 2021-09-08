@@ -1,8 +1,11 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/9coqvka27plv4wfr?svg=true)](https://ci.appveyor.com/project/Yushkevich-A-A/ahj-diploma)
 
 [ссылка на приложение](https://yushkevich-a-a.github.io/ahj-diploma/);
+
 [ссылка на репозиторий приложения](https://github.com/Yushkevich-A-A/ahj-diploma);
+
 [ссылка на сервер](https://yushkevich-ahj-diploma-server.herokuapp.com/);
+
 [ссылка на репозиторий сервера](https://github.com/Yushkevich-A-A/ahj-diploma-server);
 
 реализованы основные 5 функций :

@@ -53,7 +53,7 @@ export default class NotificationComponent {
       }
       const dalay = data.date - Date.now();
       setTimeout(() => {
-        const notification = new Notification(data.content.message, {
+        const notification = new Notification(data.content.title, {
           icon: ring,
           requireInteraction: true,
         });
