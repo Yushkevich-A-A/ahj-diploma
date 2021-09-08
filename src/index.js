@@ -7,10 +7,9 @@ import './js/Widget/StreamAudio/StreamAudio.css';
 import './js/Widget/StreamVideo/StreamVideo.css';
 import './js/Widget/EmojiComponent/EmojiComponent.css';
 import './js/Widget/HelperComponent/HelperComponent.css';
-import './js/Widget//StreamRecordHandler/StreamRecordHandler.css';
+import './js/Widget/StreamRecordHandler/StreamRecordHandler.css';
 import './js/Widget/DrawItemContent/DrawItemContent.css';
 import './css/style.css';
-
 
 // js
 import './js/app';

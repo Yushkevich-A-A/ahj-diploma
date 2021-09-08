@@ -1,28 +1,27 @@
 export default class HelperComponent {
-    constructor(widget) {
-        this.widget = widget;
-        this.blockDisplayContent = this.widget.blockDisplayContent;
-        this.fieldComponent = this.widget.additionalSendList;
-        this.hideHelperAPI = this.hideHelperAPI.bind(this);
-        this.init()
-    }
+  constructor(widget) {
+    this.widget = widget;
+    this.blockDisplayContent = this.widget.blockDisplayContent;
+    this.fieldComponent = this.widget.additionalSendList;
+    this.hideHelperAPI = this.hideHelperAPI.bind(this);
+    this.init();
+  }
 
-    init() {
-        this.drawHelperSign();
-        this.drawHelper();
+  init() {
+    this.drawHelperSign();
+    this.drawHelper();
+  }
 
-    }
+  drawHelperSign() {
+    this.helperSign = document.createElement('li');
+    this.helperSign.classList.add('button', 'additional-send-item', 'item-helper');
+    this.fieldComponent.appendChild(this.helperSign);
+  }
 
-    drawHelperSign() {
-        this.helperSign = document.createElement('li');
-        this.helperSign.classList.add('button', 'additional-send-item', 'item-helper');
-        this.fieldComponent.appendChild(this.helperSign);
-    }
-
-    drawHelper() {
-        this.helperAPI = document.createElement('div');
-        this.helperAPI.classList.add('helper-api-wrapper', 'disable');
-        this.helperAPI.innerHTML = `<div class="helper-api">
+  drawHelper() {
+    this.helperAPI = document.createElement('div');
+    this.helperAPI.classList.add('helper-api-wrapper', 'disable');
+    this.helperAPI.innerHTML = `<div class="helper-api">
                             <div class="helper-api-desc">
                               <h2 class="helper-api-title">Список доступных команд:</h2>
                               <p class="helper-api-text text-helper"><span class="helper-comand">@schedule:</span> час:минута день.месяц.год "Название уведомления" <span class="helper-description">- установка уведомления (дата уведомления должна быть не раньше текущего времени).</span></p>
@@ -38,17 +37,17 @@ export default class HelperComponent {
                               </div>
                             </form>
                           </div>`;
-        this.blockDisplayContent.appendChild(this.helperAPI);
-        this.helperAPItext = this.helperAPI.querySelector('.text-helper');
-        this.helperAPICancel = this.helperAPI.querySelector('.helper-api-submit');
-        this.helperAPICancel.onclick = this.hideHelperAPI;
-    }
+    this.blockDisplayContent.appendChild(this.helperAPI);
+    this.helperAPItext = this.helperAPI.querySelector('.text-helper');
+    this.helperAPICancel = this.helperAPI.querySelector('.helper-api-submit');
+    this.helperAPICancel.onclick = this.hideHelperAPI;
+  }
 
-    showHelperAPI() {
-      this.helperAPI.classList.remove('disable');
-    }
+  showHelperAPI() {
+    this.helperAPI.classList.remove('disable');
+  }
 
-    hideHelperAPI() {
-      this.helperAPI.classList.add('disable');
-    }
+  hideHelperAPI() {
+    this.helperAPI.classList.add('disable');
+  }
 }

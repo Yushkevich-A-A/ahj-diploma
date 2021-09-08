@@ -5,20 +5,20 @@ import paperclip from './images/buttons/paperclip.png';
 import send from './images/buttons/send.png';
 
 export default class DrawWidget {
-    constructor(element = null) {
-        this.element = element;
-        this.inputData = null;
-        this.init();
-    }
+  constructor(element = null) {
+    this.element = element;
+    this.inputData = null;
+    this.init();
+  }
 
-    init() {
-        this.drawWidget();
-    }
+  init() {
+    this.drawWidget();
+  }
 
-    drawWidget() {
-        this.widget = document.createElement('div');
-        this.widget.classList.add('widget-wrapper');
-        this.widget.innerHTML = `
+  drawWidget() {
+    this.widget = document.createElement('div');
+    this.widget.classList.add('widget-wrapper');
+    this.widget.innerHTML = `
         <div class="widget">
             <div class="widget-block widget-header">
                 <div class="header-main">
@@ -97,87 +97,87 @@ export default class DrawWidget {
                 </div>
             </div>
         </div>`;
-        this.element.appendChild(this.widget);
+    this.element.appendChild(this.widget);
 
-        // Блоки виджета
-        this.additionalMenu = this.widget.querySelector('.additional-menu');
-        this.contentList = this.widget.querySelector('.list-content');
-        this.formInput = this.widget.querySelector('.form-input-content');
+    // Блоки виджета
+    this.additionalMenu = this.widget.querySelector('.additional-menu');
+    this.contentList = this.widget.querySelector('.list-content');
+    this.formInput = this.widget.querySelector('.form-input-content');
 
-        // блоки ввода текстовых сообщений
-        this.sendMessageInputText = this.widget.querySelector('.send-message-input_text');
-        this.formInputContent = this.widget.querySelector('.form-input-content__input');
+    // блоки ввода текстовых сообщений
+    this.sendMessageInputText = this.widget.querySelector('.send-message-input_text');
+    this.formInputContent = this.widget.querySelector('.form-input-content__input');
 
-        // блоки подготовки файлов к отправке и отображение прикрепленных файлов
-        this.sendMessageInputFiles = this.widget.querySelector('.send-message-input_files');
-        this.formInputFiles = this.widget.querySelector('.form-input-files');
-        this.dropField = this.sendMessageInputFiles.querySelector('.form-input-files-drop-field');
-        this.blockDisplayContent = this.widget.querySelector('.block-display-content');
-        this.blockPreviewFiles = this.widget.querySelector('.block-preview-files');
-    
-        // блоки дополнительных функций
-        this.additionalSend = this.widget.querySelector('.additional-send');
-        this.additionalSendList = this.widget.querySelector('.additional-send-list');
-        this.emojiWidget = this.widget.querySelector('.emoji-widget');
-        this.emojiList = this.widget.querySelector('.emoji-list');
+    // блоки подготовки файлов к отправке и отображение прикрепленных файлов
+    this.sendMessageInputFiles = this.widget.querySelector('.send-message-input_files');
+    this.formInputFiles = this.widget.querySelector('.form-input-files');
+    this.dropField = this.sendMessageInputFiles.querySelector('.form-input-files-drop-field');
+    this.blockDisplayContent = this.widget.querySelector('.block-display-content');
+    this.blockPreviewFiles = this.widget.querySelector('.block-preview-files');
+
+    // блоки дополнительных функций
+    this.additionalSend = this.widget.querySelector('.additional-send');
+    this.additionalSendList = this.widget.querySelector('.additional-send-list');
+    this.emojiWidget = this.widget.querySelector('.emoji-widget');
+    this.emojiList = this.widget.querySelector('.emoji-list');
+  }
+
+  openAddMenu() {
+    if (this.additionalMenu.classList.contains('disable')) {
+      this.additionalMenu.classList.remove('disable');
+      return;
+    }
+    this.additionalMenu.classList.add('disable');
+  }
+
+  triggerAddFunctions() {
+    if (this.additionalSend.classList.contains('disable')) {
+      this.additionalSend.classList.remove('disable');
+      this.getPositionAddFunctions();
+      return;
+    }
+    this.closeAddFunctions();
+  }
+
+  closeAddFunctions() {
+    this.additionalSend.classList.add('disable');
+  }
+
+  getPositionAddFunctions() {
+    this.additionalSend.style.top = `${-this.additionalSend.offsetHeight}px`;
+  }
+
+  validityInput() {
+    this.inputData = null;
+    if (this.formInputContent.value.trim() === '') {
+      this.formInput.reset();
+      return null;
     }
 
-    openAddMenu() {
-        if (this.additionalMenu.classList.contains('disable')) {
-            this.additionalMenu.classList.remove('disable');
-            return;
-        }
-        this.additionalMenu.classList.add('disable');
-    }
+    this.inputData = this.formInputContent.value.trim();
+    this.formInput.reset();
+    return this.inputData;
+  }
 
-    triggerAddFunctions() {
-        if (this.additionalSend.classList.contains('disable')) {
-            this.additionalSend.classList.remove('disable');
-            this.getPositionAddFunctions();
-            return;
-        }
-        this.closeAddFunctions();
-    }
+  scrollToBottom() {
+    this.contentList.scrollTop = this.contentList.scrollHeight;
+  }
 
-    closeAddFunctions() {
-        this.additionalSend.classList.add('disable');
-    }
+  visiableBlockFiles() {
+    this.sendMessageInputText.classList.add('disable');
+    this.sendMessageInputFiles.classList.remove('disable');
+  }
 
-    getPositionAddFunctions() {
-        this.additionalSend.style.top = -this.additionalSend.offsetHeight + 'px';
-    }
+  disableBlockFiles() {
+    this.sendMessageInputText.classList.remove('disable');
+    this.sendMessageInputFiles.classList.add('disable');
+  }
 
-    validityInput() {
-        this.inputData = null;
-        if (this.formInputContent.value.trim() === '') {
-            this.formInput.reset();
-            return null;
-        }
+  activeDropField() {
+    this.dropField.classList.add('form-input-files_active');
+  }
 
-        this.inputData = this.formInputContent.value.trim();
-        this.formInput.reset();
-        return this.inputData;
-    }
-
-    scrollToBottom() {
-        this.contentList.scrollTop = this.contentList.scrollHeight
-    }
-
-    visiableBlockFiles() {
-        this.sendMessageInputText.classList.add('disable');
-        this.sendMessageInputFiles.classList.remove('disable');
-    }
-
-    disableBlockFiles() {
-        this.sendMessageInputText.classList.remove('disable');
-        this.sendMessageInputFiles.classList.add('disable');
-    }
-
-    activeDropField() {
-        this.dropField.classList.add('form-input-files_active');
-    }
-
-    disactiveDropField() {
-        this.dropField.classList.remove('form-input-files_active');
-    }
+  disactiveDropField() {
+    this.dropField.classList.remove('form-input-files_active');
+  }
 }

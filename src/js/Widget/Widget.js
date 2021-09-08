@@ -1,15 +1,15 @@
-import DrawItemContent from "./DrawItemContent/DrawItemContent";
-import DrawWidget from "./DrawWidget/DrawWidget";
-import ErrorAPI from ".//ErrorAPI/ErrorAPI";
-import LocationComponent from "./LocationComponent/LocationComponent";
-import StreamRecordHandler from "./StreamRecordHandler/StreamRecordHandler";
-import UploadFiles from "./UploadFiles/UploadFiles";
-import WidgetController from "./WidgetController/WidgetController";
-import StreamAudio from "./StreamAudio/StreamAudio";
-import StreamVideo from "./StreamVideo/StreamVideo";
-import NotificationComponent from "./NotificationComponent/NotificationComponent";
-import EmojiComponent from "./EmojiComponent/EmojiComponent";
-import HelperComponent from "./HelperComponent/HelperComponent";
+import DrawItemContent from './DrawItemContent/DrawItemContent';
+import DrawWidget from './DrawWidget/DrawWidget';
+import ErrorAPI from './ErrorAPI/ErrorAPI';
+import LocationComponent from './LocationComponent/LocationComponent';
+import StreamRecordHandler from './StreamRecordHandler/StreamRecordHandler';
+import UploadFiles from './UploadFiles/UploadFiles';
+import WidgetController from './WidgetController/WidgetController';
+import StreamAudio from './StreamAudio/StreamAudio';
+import StreamVideo from './StreamVideo/StreamVideo';
+import NotificationComponent from './NotificationComponent/NotificationComponent';
+import EmojiComponent from './EmojiComponent/EmojiComponent';
+import HelperComponent from './HelperComponent/HelperComponent';
 
 const url = 'http://localhost:7070';
 
@@ -25,14 +25,14 @@ const upload = new UploadFiles(widget);
 const emoji = new EmojiComponent(url, widget);
 const helper = new HelperComponent(widget);
 
-const drawContentList = new DrawItemContent(url, widget.contentList, notificationComponent)
-const controller = new WidgetController(url, 
-                                        widget, 
-                                        drawContentList, 
-                                        upload, 
-                                        locationComponent, 
-                                        audioComponent, 
-                                        videoComponent, 
-                                        notificationComponent,
-                                        emoji,
-                                        helper);
+const drawContentList = new DrawItemContent(url, widget.contentList, notificationComponent);
+const controller = new WidgetController(url,
+  widget,
+  drawContentList,
+  upload,
+  locationComponent,
+  audioComponent,
+  videoComponent,
+  notificationComponent,
+  emoji,
+  helper);
