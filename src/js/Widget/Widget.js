@@ -11,7 +11,7 @@ import NotificationComponent from './NotificationComponent/NotificationComponent
 import EmojiComponent from './EmojiComponent/EmojiComponent';
 import HelperComponent from './HelperComponent/HelperComponent';
 
-const url = 'http://localhost:7070';
+const url = 'https://yushkevich-ahj-diploma-server.herokuapp.com';
 
 const widget = new DrawWidget(document.body);
 const streamRecordComponent = new StreamRecordHandler(widget);
