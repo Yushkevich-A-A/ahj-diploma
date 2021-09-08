@@ -28,7 +28,6 @@ export default class ErrorAPI {
   }
 
   showErrorAPI(dataError) {
-    console.log(dataError);
     this.errorAPItext.textContent = dataError;
     this.errorAPI.classList.remove('disable');
   }

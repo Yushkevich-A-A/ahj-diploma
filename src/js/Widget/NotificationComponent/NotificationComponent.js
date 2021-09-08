@@ -23,7 +23,6 @@ export default class NotificationComponent {
   }
 
   async createNotification(data) {
-    console.log(data);
     if (!window.Notification) {
       if (!this.anavailbleNotification) {
         localStorage.setItem('anavailbleNotification', JSON.stringify(true));

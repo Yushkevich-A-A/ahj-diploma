@@ -4,7 +4,6 @@ export default class EmojiComponent {
     this.url = url;
     this.emojiWidget = this.widget.emojiWidget;
     this.emojiList = this.widget.emojiList;
-    console.log(this.emojiList);
     this.downloadEmoji();
   }
 

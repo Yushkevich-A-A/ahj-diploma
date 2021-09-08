@@ -368,7 +368,6 @@ export default class WidgetController {
   async sendRequestForPreviousPosts() {
     const request = await fetch(`${this.url}/previousposts/${this.previouseIndexPost}`);
     const response = await request.json();
-    console.log(response.status);
     if (!response.status) {
       return;
     }
@@ -382,7 +381,6 @@ export default class WidgetController {
   async reqForDownloadImg(filename) {
     const response = await fetch(`${this.url}/download/${filename}`);
     const blob = await response.blob();
-    console.log(blob);
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = filename;

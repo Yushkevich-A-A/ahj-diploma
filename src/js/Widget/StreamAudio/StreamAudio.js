@@ -49,7 +49,6 @@ export default class StreamAudio {
         }
         const fileName = `${uuidv4()}.mp3`;
         const blob = new File(chunks, fileName, {});
-        console.log(blob);
         handler(blob);
         this.recorder = null;
       });

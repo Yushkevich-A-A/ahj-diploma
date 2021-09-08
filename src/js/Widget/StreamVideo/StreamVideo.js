@@ -52,9 +52,7 @@ export default class StreamVideo {
           return;
         }
         const fileName = `${uuidv4()}.mp4`;
-        console.log(chunks);
         const blob = new File(chunks, fileName);
-        console.log(blob);
         handler(blob);
         this.recorder = null;
       });
