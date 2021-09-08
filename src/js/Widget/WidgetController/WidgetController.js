@@ -159,11 +159,11 @@ export default class WidgetController {
         this.widget.formInputFiles.addEventListener('input', event => {
             this.resetUplodFile();
             this.uploadFile(event);
-            this.widget.formInputFiles.value = '';
         })
 
         document.addEventListener('dragover', event => {
             event.preventDefault();
+            // console.log(event.relatedTarget)
             this.helper.hideHelperAPI();
             this.emoji.closeBlockEmodji();
             this.widget.closeAddFunctions();
@@ -177,7 +177,17 @@ export default class WidgetController {
             } else {
                 this.widget.disactiveDropField();
             }
+            
         })
+
+        document.addEventListener('dragleave', event => {
+            event.preventDefault();
+            if (event.relatedTarget === null) {
+                this.widget.disableBlockFiles();
+            }
+        })
+
+
 
         document.addEventListener('drop', event => {
             event.preventDefault();
@@ -187,6 +197,15 @@ export default class WidgetController {
                 this.uploadFile({ target: event.dataTransfer });
             }
         });
+
+    // document.addEventListener('mouseout', event => {
+    //     event.preventDefault();
+    //     if (event.relatedTarget === null) {
+    //         this.widget.disableBlockFiles();
+    //     }
+    //     console.log(event.relatedTarget);
+
+    // })
 
         this.widget.contentList.addEventListener('scroll', event => {
             if (event.target.scrollTop > 50) {

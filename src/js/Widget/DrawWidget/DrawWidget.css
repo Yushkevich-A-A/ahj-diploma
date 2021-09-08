@@ -168,6 +168,7 @@
   .send-message-input_files {
     position: relative;
     height: 100px;
+    z-index: 1;
   }
 
   /* визуализация блока дополнительных функций */
